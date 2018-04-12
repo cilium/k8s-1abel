@@ -62,6 +62,6 @@ typings/
 
 # Generated files
 build
-selected-linux
-selected-macos
+k8s-1abel-linux
+k8s-1abel-macos
 

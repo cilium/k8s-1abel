@@ -1,0 +1,21 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+description: "Allow HTTP GET /amazements from label=amazed to label=amazing"
+metadata:
+  name: "rule"
+spec:
+  endpointSelector:
+    matchLabels:
+      labe1: amazing
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        label: amazed
+    toPorts:
+    - ports:
+      - port: "80"
+        protocol: TCP
+      rules:
+        http:
+        - method: "GET"
+          path: "/amazements"

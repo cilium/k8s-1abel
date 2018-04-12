@@ -1,9 +1,9 @@
 {
-  "name": "selected",
+  "name": "k8s-1abel",
   "version": "0.0.0",
   "private": true,
   "bin": {
-    "selected": "./build/src/main.js"
+    "k8s-1abel": "./build/src/main.js"
   },
   "pkg": {
     "scripts": "build/src/**/*.js"

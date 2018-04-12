@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: amazing-app
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        label: amazing
+    spec:
+      containers:
+      - name: web
+        image: cilium/demo-httpd
+        ports:
+        - containerPort: 80

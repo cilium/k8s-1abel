@@ -43,16 +43,16 @@ const SELECTEE = {
 
 const command = yargs
   .command(
-    "$0 <selector>",
+    "$0 <resource-type>",
     "No resource left unselected 🤯",
     yargs => {
-      yargs.positional("selector", {
+      yargs.positional("resource-type", {
         choices: ["ciliumnetworkpolicies", "services"]
       });
       return yargs;
     },
     args => {
-      handle(args.selector, args.verbose);
+      handle(args.resourceType, args.verbose);
     }
   )
   .alias("h", "help")
@@ -66,7 +66,7 @@ const command = yargs
   .demandCommand()
   .help();
 
-command["$0"] = "selected";
+command["$0"] = "k8s-1abel";
 command.argv;
 
 async function getResource(resource): Promise<string> {
