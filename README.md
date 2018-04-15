@@ -4,8 +4,8 @@
 
 Kubernetes uses label selectors to create references between different
 resources such as services referring to pods or deployments. All references are
-loosely coupled using label names. Typos can lead to stale references between
-resources and can be very hard to find.
+losely coupled using label names. Typos can lead to stale references between
+resources and are very hard to find.
 
 k8s-1abel ("k8s-label") validates all [LabelSelector] in Kubernetes resources
 such as [Services], and automatically points out label references that cannot
