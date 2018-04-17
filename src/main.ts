@@ -52,10 +52,17 @@ const command = yargs
       return yargs;
     },
     args => {
-      handle(args.resourceType, args.debug);
+      handle(args.resourceType, args.debug, args.bufferSizeMb);
     }
   )
   .alias("h", "help")
+  .option("b", {
+    alias: "buffer-size-mb",
+    demandOption: false,
+    describe: "Stdout buffer size in MB",
+    type: "number",
+    default: 50
+  })
   .option("d", {
     alias: "debug",
     demandOption: false,
@@ -68,11 +75,11 @@ const command = yargs
 command["$0"] = "k8s-1abel";
 command.argv;
 
-async function getResource(resource): Promise<string> {
+async function getResource(resource, bufferSizeMb: number): Promise<string> {
   return new Promise<any>((resolve, reject) => {
     child_process.exec(
       `kubectl get ${resource} --all-namespaces -o=json`,
-      { maxBuffer: 1024 * 1024 },
+      { maxBuffer: 1024 * 1024 * bufferSizeMb },
       (error, stdout, stderr) => {
         return error ? reject(error) : resolve(stdout);
       }
@@ -153,8 +160,11 @@ function getSelectorLabels(
     }, new Map<string, any>());
 }
 
-async function getSelectors(resourceName): Promise<ISelector[]> {
-  const resources = JSON.parse(await getResource(resourceName));
+async function getSelectors(
+  resourceName,
+  bufferSizeMb: number
+): Promise<ISelector[]> {
+  const resources = JSON.parse(await getResource(resourceName, bufferSizeMb));
   return jp({ json: resources, path: ITEMS_PATH }).map(
     (resource: any): ISelector => {
       const selectors = getSelectorLabels(resource, resourceName, "selectors");
@@ -172,8 +182,13 @@ async function getSelectors(resourceName): Promise<ISelector[]> {
   );
 }
 
-async function getSelectees(resource): Promise<ISelectee[]> {
-  const selecteeResources = JSON.parse(await getResource(resource));
+async function getSelectees(
+  resource,
+  bufferSizeMb: number
+): Promise<ISelectee[]> {
+  const selecteeResources = JSON.parse(
+    await getResource(resource, bufferSizeMb)
+  );
   return jp({ json: selecteeResources, path: ITEMS_PATH }).map(
     (selectee: any) => {
       const labels = conf[resource].labelsHandler(
@@ -372,11 +387,15 @@ async function check(
   return errorCount;
 }
 
-async function handle(selectorName: string, debug: boolean) {
+async function handle(
+  selectorName: string,
+  debug: boolean,
+  bufferSizeMb: number
+) {
   try {
     const selecteeName = SELECTEE[selectorName];
-    const selectors = await getSelectors(selectorName);
-    const selectees = await getSelectees(selecteeName);
+    const selectors = await getSelectors(selectorName, bufferSizeMb);
+    const selectees = await getSelectees(selecteeName, bufferSizeMb);
     if (debug) {
       selectors.forEach(selector => {
         selector.selectors.forEach(matcher => {
