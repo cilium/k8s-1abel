@@ -1,6 +1,6 @@
 {
   "name": "k8s-1abel",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "bin": {
     "k8s-1abel": "./build/src/main.js"

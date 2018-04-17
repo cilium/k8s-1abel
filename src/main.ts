@@ -52,15 +52,14 @@ const command = yargs
       return yargs;
     },
     args => {
-      handle(args.resourceType, args.verbose);
+      handle(args.resourceType, args.debug);
     }
   )
   .alias("h", "help")
-  .version(false)
-  .option("v", {
-    alias: "verbose",
+  .option("d", {
+    alias: "debug",
     demandOption: false,
-    describe: "Verbose output",
+    describe: "Debug output",
     type: "boolean"
   })
   .demandCommand()
@@ -319,7 +318,7 @@ function selecteeToOneLineString(selectee: ISelectee): string {
 async function check(
   selectors: ISelector[],
   selectees: ISelectee[],
-  verbose: boolean
+  debug: boolean
 ): Promise<number> {
   let errorCount = 0;
   selectors.forEach(selector => {
@@ -328,7 +327,7 @@ async function check(
         Object.keys(labels.matchLabels).length === 0 &&
         labels.matchExpressions.length === 0
       ) {
-        if (verbose) {
+        if (debug) {
           console.log(
             chalk`{green.bold ✔} ${selectorToOneLineString(
               selector,
@@ -345,7 +344,7 @@ async function check(
       const selected = selectees
         .map(selectee => {
           if (selects(selector, labels, selectee)) {
-            if (verbose) {
+            if (debug) {
               console.log(
                 chalk`{green.bold ✔} ${selectorToOneLineString(
                   selector,
@@ -373,12 +372,12 @@ async function check(
   return errorCount;
 }
 
-async function handle(selectorName: string, verbose: boolean) {
+async function handle(selectorName: string, debug: boolean) {
   try {
     const selecteeName = SELECTEE[selectorName];
     const selectors = await getSelectors(selectorName);
     const selectees = await getSelectees(selecteeName);
-    if (verbose) {
+    if (debug) {
       selectors.forEach(selector => {
         selector.selectors.forEach(matcher => {
           console.log(
@@ -397,10 +396,10 @@ async function handle(selectorName: string, verbose: boolean) {
         );
       });
     }
-    const result = await check(selectors, selectees, verbose);
-    if (result > 0 && !verbose) {
+    const result = await check(selectors, selectees, debug);
+    if (result > 0 && !debug) {
       console.log(
-        chalk`{blue.bold ℹ} Run with {bold -v} to see the list of ${selectorName}/${selecteeName}`
+        chalk`{blue.bold ℹ} Run with {bold -d} to see the list of ${selectorName}/${selecteeName}`
       );
     }
     process.exit(result);
