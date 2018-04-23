@@ -1,6 +1,6 @@
 FROM node:9.11-alpine
 WORKDIR /1abel
-COPY k8s-label /usr/local/bin/
+COPY k8s-1abel /usr/local/bin/
 COPY package.json tsconfig.json yarn.lock ./
 COPY src/ src/
 RUN apk --no-cache add \
