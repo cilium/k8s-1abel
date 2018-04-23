@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k8s-1abel
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: k8s-1abel
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - services
+  verbs:
+  - list
+- apiGroups:
+  - cilium.io
+  resources:
+  - ciliumnetworkpolicies
+  - ciliumendpoints
+  verbs:
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s-1abel
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: k8s-1abel
+roleRef:
+  kind: ClusterRole
+  name: k8s-1abel
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: k8s-1abel
+  namespace: k8s-1abel
+spec:
+  serviceAccountName: default
+  containers:
+  - name: k8s-1abel
+    image: cilium/k8s-1abel
