@@ -17,9 +17,9 @@ be associated with a target pod or target deployment.
 
 ## Installation & Usage
 
-    $ curl -sLO releases.cilium.io/k8s-1abel/k8s-1abel-darwin-x86_64
-    $ mv k8s-1abel-darwin-x86_64 k8s-1abel && chmod +x k8s-1abel
-    $ ./k8s-1abel services
+    $ kubectl apply -f https://raw.githubusercontent.com/cilium/k8s-1abel/master/k8s-1abel.yaml
+    $ kubectl exec -it -n k8s-1abel k8s-1abel bash
+    $ k8s-1abel services
     ✘ default/amazing:{"isGlobal":false,"matchLabels":{"1abel":"amazing"}} does not select anything
       "1abel":"amazing" not found. Did you mean "label":"amazing"? "1label":"amazing"
     ℹ Run with -v to see the list of services/pods
