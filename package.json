@@ -1,6 +1,7 @@
 {
   "name": "k8s-1abel",
   "version": "0.0.2",
+  "license": "Apache-2.0",
   "bin": {
     "k8s-1abel": "./build/src/main.js"
   },
