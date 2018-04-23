@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+/1abel/node_modules/.bin/ts-node  /1abel/src/main.ts $@

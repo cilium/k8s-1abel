@@ -1,7 +1,6 @@
 {
   "name": "k8s-1abel",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.0.2",
   "bin": {
     "k8s-1abel": "./build/src/main.js"
   },
@@ -20,16 +19,13 @@
   "devDependencies": {
     "@types/diff": "^3.2.2",
     "@types/fast-levenshtein": "^0.0.1",
-    "@types/moment": "^2.13.0",
     "@types/node": "^9.4.0",
     "@types/object-hash": "^1.2.0",
     "@types/yargs": "^10.0.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.4",
     "pkg": "^4.3.1",
-    "prettier": "^1.11.1",
-    "ts-node": "^5.0.1",
-    "typescript": "^2.7.1"
+    "prettier": "^1.11.1"
   },
   "dependencies": {
     "chalk": "^2.3.2",
@@ -37,6 +33,8 @@
     "fast-levenshtein": "^2.0.6",
     "jsonpath-plus": "^0.16.0",
     "object-hash": "^1.3.0",
+    "ts-node": "^6.0.0",
+    "typescript": "2.8.1",
     "yargs": "^11.0.0"
   },
   "lint-staged": {
